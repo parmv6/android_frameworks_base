@@ -1840,15 +1840,14 @@ public class InputMethodService extends AbstractInputMethodService {
             return handleBack(true);
         }
         if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP
-                || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-           mVolumeKeyCursorControl = Settings.System.getInt(getContentResolver(),
-                   Settings.System.VOLUME_KEY_CURSOR_CONTROL, 0);
-           if (isInputViewShown() && (mVolumeKeyCursorControl != VOLUME_CURSOR_OFF)) {
-               return true;
-           }
-           return false;
-       }
-        
+                 || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            mVolumeKeyCursorControl = Settings.System.getInt(getContentResolver(),
+                    Settings.System.VOLUME_KEY_CURSOR_CONTROL, 0);
+            if (isInputViewShown() && (mVolumeKeyCursorControl != VOLUME_CURSOR_OFF)) {
+                return true;
+            }
+            return false;
+        }
         return doMovementKey(keyCode, event, MOVEMENT_UP);
     }
 
