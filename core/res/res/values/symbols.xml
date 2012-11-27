@@ -1882,4 +1882,8 @@
   <java-symbol type="bool" name="config_hasDockBattery" />
   <java-symbol type="bool" name="config_hasRemovableLid" />
 
+  <!-- Developer settings - Kill app back press -->
+  <java-symbol type="integer" name="config_backKillTimeout" />
+  <java-symbol type="string" name="app_killed_message" />
+
 </resources>
