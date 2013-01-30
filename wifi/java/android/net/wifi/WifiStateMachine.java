@@ -1306,14 +1306,14 @@ public class WifiStateMachine extends StateMachine {
            ip settings */
         InterfaceConfiguration ifcg = null;
         try {
-            ifcg = mNwService.getInterfaceConfig(mTetherInterfaceName);
+            ifcg = mNwService.getInterfaceConfig(mInterfaceName);
             if (ifcg != null) {
                 ifcg.setLinkAddress(
                         new LinkAddress(NetworkUtils.numericToInetAddress("0.0.0.0"), 0));
-                mNwService.setInterfaceConfig(mTetherInterfaceName, ifcg);
+                mNwService.setInterfaceConfig(mInterfaceName, ifcg);
             }
         } catch (Exception e) {
-            loge("Error resetting interface " + mTetherInterfaceName + ", :" + e);
+            loge("Error resetting interface " + mInterfaceName + ", :" + e);
         }
 
         if (mCm.untether(mTetherInterfaceName) != ConnectivityManager.TETHER_ERROR_NO_ERROR) {
@@ -2240,34 +2240,25 @@ public class WifiStateMachine extends StateMachine {
                 public void run() {
                     if (DBG) log(getName() + message.toString() + "\n");
                     mWakeLock.acquire();
-                    if(mWifiNative.unloadDriver()) {
-                        if (DBG) log("Driver unload successful");
-                        sendMessage(CMD_UNLOAD_DRIVER_SUCCESS);
-
-                        switch(message.arg1) {
-                            case WIFI_STATE_DISABLED:
-                            case WIFI_STATE_UNKNOWN:
+                    switch(message.arg1) {
+                        case WIFI_STATE_DISABLED:
+                        case WIFI_STATE_UNKNOWN:
+                            if(mWifiNative.unloadDriver()) {
+                                if (DBG) log("Driver unload successful");
+                                sendMessage(CMD_UNLOAD_DRIVER_SUCCESS);
                                 setWifiState(message.arg1);
-                                break;
-                            case WIFI_AP_STATE_DISABLED:
-                            case WIFI_AP_STATE_FAILED:
-                                setWifiApState(message.arg1);
-                                break;
-                        }
-                    } else {
-                        loge("Failed to unload driver!");
-                        sendMessage(CMD_UNLOAD_DRIVER_FAILURE);
-
-                        switch(message.arg1) {
-                            case WIFI_STATE_DISABLED:
-                            case WIFI_STATE_UNKNOWN:
+                            } else {
+                                loge("Failed to unload driver!");
+                                sendMessage(CMD_UNLOAD_DRIVER_FAILURE);
                                 setWifiState(WIFI_STATE_UNKNOWN);
-                                break;
-                            case WIFI_AP_STATE_DISABLED:
-                            case WIFI_AP_STATE_FAILED:
-                                setWifiApState(WIFI_AP_STATE_FAILED);
-                                break;
-                        }
+                            }
+                            break;
+                        case WIFI_AP_STATE_DISABLED:
+                        case WIFI_AP_STATE_FAILED:
+                            // C3C0: don't unload driver when AP disabled to avoid dhd unload deadlock
+                            sendMessage(CMD_UNLOAD_DRIVER_SUCCESS);
+                            setWifiApState(message.arg1);
+                            break;
                     }
                     mWakeLock.release();
                 }
@@ -3870,7 +3861,9 @@ public class WifiStateMachine extends StateMachine {
                 case WifiStateMachine.CMD_RESPONSE_AP_CONFIG:
                     WifiConfiguration config = (WifiConfiguration) message.obj;
                     if (config != null) {
-                        startSoftApWithConfig(config);
+                        // C3C0: Fix deadlock when AP config was changed during active wifi tether
+                        if(!syncGetWifiApStateByName().equals("enabled"))
+                            startSoftApWithConfig(config);
                     } else {
                         loge("Softap config is null!");
                         sendMessage(CMD_START_AP_FAILURE);
