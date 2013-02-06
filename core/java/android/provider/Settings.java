@@ -2663,6 +2663,16 @@ public final class Settings {
         public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
 
         /**
+         * Display style of the status bar battery information
+         * 0: Display the stock battery information
+         * 3: Display cm circle battery implementation
+         * 4: Display cm circle battery implementation with percentage
+         * default: 0
+         * @hide
+         */
+        public static final String STATUS_BAR_BATTERY = "status_bar_battery";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
