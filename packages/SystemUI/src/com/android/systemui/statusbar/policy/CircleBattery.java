@@ -38,6 +38,7 @@ import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+import android.util.ColorUtils;
 
 import com.android.internal.R;
 
@@ -218,6 +219,18 @@ public class CircleBattery extends ImageView {
         // font needs some extra settings
         mPaintFont.setTextAlign(Align.CENTER);
         mPaintFont.setFakeBoldText(true);
+
+        // Listen for status bar icon color changes
+        mContext.getContentResolver().registerContentObserver(
+            Settings.System.getUriFor(Settings.System.STATUS_ICON_COLOR), false, new ContentObserver(new Handler()) {
+                @Override
+                public void onChange(boolean selfChange) {
+                    ColorUtils.ColorSettingInfo colorInfo = ColorUtils.getColorSettingInfo(mContext,
+                        Settings.System.STATUS_ICON_COLOR);
+                    mPaintFont.setColor(colorInfo.lastColor);
+                    mPaintSystem.setColor(colorInfo.lastColor);
+                    invalidate();
+                }});
     }
 
     @Override
