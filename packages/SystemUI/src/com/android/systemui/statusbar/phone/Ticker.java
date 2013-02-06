@@ -17,9 +17,12 @@
 package com.android.systemui.statusbar.phone;
 
 import android.content.Context;
+import android.content.ContentResolver;
 import android.content.res.Resources;
+import android.database.ContentObserver;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.provider.Settings;
 import android.text.StaticLayout;
 import android.text.Layout.Alignment;
 import android.text.TextPaint;
@@ -31,6 +34,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ImageSwitcher;
+import android.util.ColorUtils;
 
 import java.util.ArrayList;
 
@@ -181,8 +185,28 @@ public abstract class Ticker {
         // Copy the paint style of one of the TextSwitchers children to use later for measuring
         TextView text = (TextView)mTextSwitcher.getChildAt(0);
         mPaint = text.getPaint();
+
+        // Listen for status bar icon color changes
+        mContext.getContentResolver().registerContentObserver(
+            Settings.System.getUriFor(Settings.System.STATUS_ICON_COLOR), false, new ContentObserver(new Handler()) {
+                @Override
+                public void onChange(boolean selfChange) {
+                    setColor();
+                }});
     }
 
+    private void setColor() {
+        ColorUtils.ColorSettingInfo colorInfo = ColorUtils.getColorSettingInfo(mContext, Settings.System.STATUS_ICON_COLOR);
+        if (colorInfo == null)
+            return;
+
+        int childCount = mTextSwitcher.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            if (mTextSwitcher.getChildAt(i) instanceof TextView) {
+                ((TextView)mTextSwitcher.getChildAt(i)).setTextColor(colorInfo.lastColor);
+            }
+        }
+    }
 
     public void addEntry(StatusBarNotification n) {
         int initialCount = mSegments.size();
