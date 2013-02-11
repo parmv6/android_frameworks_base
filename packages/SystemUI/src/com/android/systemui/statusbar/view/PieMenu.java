@@ -27,6 +27,7 @@ import android.animation.TimeInterpolator;
 import android.database.ContentObserver;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -106,12 +107,12 @@ public class PieMenu extends FrameLayout {
     private static final int COLOR_ALPHA_MASK = 0xaa000000;
     private static final int COLOR_OPAQUE_MASK = 0xff000000;
     private static final int COLOR_SNAP_BACKGROUND = 0xffffffff;
-    private static final int COLOR_PIE_BACKGROUND = 0xaaff005e;
+    private static final int COLOR_PIE_BACKGROUND = 0xaa000000;
     private static final int COLOR_PIE_BUTTON = 0xb2ffffff;
-    private static final int COLOR_PIE_SELECT = 0xaadbff00;
+    private static final int COLOR_PIE_SELECT = 0xaaffffff;
     private static final int COLOR_PIE_OUTLINES = 0x55ffffff;
     private static final int COLOR_CHEVRON_LEFT = 0x0999cc;
-    private static final int COLOR_CHEVRON_RIGHT = 0x33b5e5;
+    private static final int COLOR_CHEVRON_RIGHT = 0x53d5e5;
     private static final int COLOR_BATTERY_JUICE = 0x33b5e5;
     private static final int COLOR_BATTERY_JUICE_LOW = 0xffbb33;
     private static final int COLOR_BATTERY_JUICE_CRITICAL = 0xff4444;
@@ -550,6 +551,10 @@ public class PieMenu extends FrameLayout {
     public void init() {
         mStatusPanel = new PieStatusPanel(mContext, mPanel);
         getNotifications();
+    }
+
+    public void onConfigurationChanged() {
+        if (mStatusPanel != null) mStatusPanel.updatePanelConfiguration();
     }
 
     public PieStatusPanel getStatusPanel() {
