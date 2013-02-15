@@ -347,9 +347,9 @@ public class CircleBattery extends ImageView {
             initSizeMeasureIconHeight();
         }
 
-        mPaintFont.setTextSize(mCircleSize / 2f);
+        mPaintFont.setTextSize(mCircleSize / 1.8f);
 
-        float strokeWidth = mCircleSize / 7.5f;
+        float strokeWidth = mCircleSize / 9.5f;
         mPaintRed.setStrokeWidth(strokeWidth);
         mPaintSystem.setStrokeWidth(strokeWidth);
         mPaintGray.setStrokeWidth(strokeWidth / 3.5f);
@@ -386,7 +386,7 @@ public class CircleBattery extends ImageView {
                 com.android.systemui.R.drawable.stat_sys_wifi_signal_4_fully);
         final int x = measure.getWidth() / 2;
 
-        mCircleSize = 0;
+        mCircleSize = 2;
         for (int y = 0; y < measure.getHeight(); y++) {
             int alpha = Color.alpha(measure.getPixel(x, y));
             if (alpha > 5) {
