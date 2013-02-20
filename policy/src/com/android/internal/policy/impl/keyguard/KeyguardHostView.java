@@ -40,6 +40,7 @@ import android.os.Parcelable;
 import android.os.SystemClock;
 import android.os.UserHandle;
 import android.os.UserManager;
+import android.os.Vibrator;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -76,6 +77,7 @@ public class KeyguardHostView extends KeyguardViewBase {
     private KeyguardSecurityViewFlipper mSecurityViewContainer;
     private KeyguardSelectorView mKeyguardSelectorView;
     private KeyguardTransportControlView mTransportControl;
+    private View mExpandChallengeView;
     private boolean mIsVerifyUnlockOnly;
     private boolean mEnableFallback; // TODO: This should get the value from KeyguardPatternView
     private SecurityMode mCurrentSecuritySelection = SecurityMode.Invalid;
@@ -104,6 +106,8 @@ public class KeyguardHostView extends KeyguardViewBase {
     // User for whom this host view was created
     private int mUserId;
 
+    private Vibrator mVibrator;
+
     /*package*/ interface TransportCallback {
         void onListenerDetached();
         void onListenerAttached();
@@ -128,6 +132,9 @@ public class KeyguardHostView extends KeyguardViewBase {
 
     public KeyguardHostView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+
         mLockPatternUtils = new LockPatternUtils(context);
         mUserId = mLockPatternUtils.getCurrentUser();
         mAppWidgetHost = new AppWidgetHost(
@@ -287,11 +294,30 @@ public class KeyguardHostView extends KeyguardViewBase {
 
         showPrimarySecurityScreen(false);
         updateSecurityViews();
+
+        mExpandChallengeView = (View) findViewById(R.id.expand_challenge_handle);
+        if (mExpandChallengeView != null) {
+            mExpandChallengeView.setOnLongClickListener(mFastUnlockClickListener);
+        }
+
+        minimizeChallengeIfDesired();
     }
 
     private boolean shouldEnableAddWidget() {
         return numWidgets() < MAX_WIDGETS && mUserSetupCompleted;
     }
+
+    private final OnLongClickListener mFastUnlockClickListener = new OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            if (Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.HAPTIC_FEEDBACK_ENABLED, 1) != 0) {
+                mVibrator.vibrate(2);
+            }
+            showNextSecurityScreenOrFinish(false);
+            return true;
+        }
+    };
 
     private int getDisabledFeatures(DevicePolicyManager dpm) {
         int disabledFeatures = DevicePolicyManager.KEYGUARD_DISABLE_FEATURES_NONE;
@@ -882,7 +908,7 @@ public class KeyguardHostView extends KeyguardViewBase {
         if (mViewStateManager != null) {
             mViewStateManager.showUsabilityHints();
         }
-        requestFocus();
+        minimizeChallengeIfDesired();
     }
 
     @Override
@@ -966,6 +992,19 @@ public class KeyguardHostView extends KeyguardViewBase {
             // otherwise, go to the unlock screen, see if they can verify it
             mIsVerifyUnlockOnly = true;
             showSecurityScreen(securityMode);
+        }
+    }
+
+    private void minimizeChallengeIfDesired() {
+        if (mSlidingChallengeLayout == null) {
+            return;
+        }
+
+        int setting = Settings.System.getIntForUser(getContext().getContentResolver(),
+                Settings.System.LOCKSCREEN_MAXIMIZE_WIDGETS, 0, UserHandle.USER_CURRENT);
+
+        if (setting == 1) {
+            mSlidingChallengeLayout.fadeOutChallenge();
         }
     }
 
