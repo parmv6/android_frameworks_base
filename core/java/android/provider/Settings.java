@@ -2806,6 +2806,11 @@ public final class Settings {
          */
         public static final String BUTTON_BACKLIGHT_DISABLE = "button_backlight_disable";
 
+        /**
+         * Enables/disables HW acceleration for lockscreen
+         * @hide
+         */
+        public static final String LOCKSCREEN_HW_ACCELERATED = "lockscreen_hw_accelerated";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
