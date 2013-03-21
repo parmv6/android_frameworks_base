@@ -223,7 +223,7 @@ public class AudioSystem
     public static final int DEVICE_OUT_REMOTE_SUBMIX = 0x8000;
 
     public static final int DEVICE_OUT_DEFAULT = DEVICE_BIT_DEFAULT;
-    public static final int DEVICE_OUT_FM = 0x8000;
+    public static final int DEVICE_OUT_FM = 0x80000;
 
     public static final int DEVICE_OUT_ALL = (DEVICE_OUT_EARPIECE |
                                               DEVICE_OUT_SPEAKER |
