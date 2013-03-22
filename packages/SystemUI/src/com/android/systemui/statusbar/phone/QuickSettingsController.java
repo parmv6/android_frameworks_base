@@ -176,6 +176,8 @@ public class QuickSettingsController {
                 qs = new MobileNetworkTile(mContext, inflater, mContainerView, this);
             } else if (tile.equals(TILE_LOCKSCREEN)) {
                 qs = new ToggleLockscreenTile(mContext, inflater, mContainerView, this);
+            } else if (tile.equals(TILE_NETWORKMODE) && telephonySupported) {
+                qs = new MobileNetworkTypeTile(mContext, inflater, mContainerView, this);
             } else if (tile.equals(TILE_AUTOROTATE)) {
                 qs = new AutoRotateTile(mContext, inflater, mContainerView, this, mHandler);
             } else if (tile.equals(TILE_AIRPLANE)) {
