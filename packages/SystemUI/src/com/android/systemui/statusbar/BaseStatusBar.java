@@ -556,7 +556,6 @@ public abstract class BaseStatusBar extends SystemUI implements
 
         // Quick navigation bar trigger area
         View pieControlsTrigger = new View(mContext);
-
         // Store our views for removing / adding
         mPieControlPanel = panel;
         mPieControlsTrigger = pieControlsTrigger;
