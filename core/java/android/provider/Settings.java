@@ -2886,7 +2886,6 @@ public final class Settings {
         public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
 
         /**
-<<<<<<< HEAD
          * Display style of the status bar battery information
          * 0: Display the stock battery information
          * 3: Display cm circle battery implementation
@@ -2929,7 +2928,8 @@ public final class Settings {
          * @hide
          */
         public static final String LOCKSCREEN_HW_ACCELERATED = "lockscreen_hw_accelerated";
-=======
+
+	/**
          * Whether to enable custom rebindings of the actions performed on
          * certain key press events.
          * @hide
@@ -2998,7 +2998,6 @@ public final class Settings {
          * @hide
          */
         public static final String UI_FORCE_OVERFLOW_BUTTON = "ui_force_overflow_button";
->>>>>>> d99ac91... Hardware key custom rebinding (1/2)
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
