@@ -176,18 +176,9 @@ public class QuickSettingsController {
             } else if (tile.equals(TILE_MOBILEDATA) && mobileDataSupported) {
                 qs = new MobileNetworkTile(mContext, this);
             } else if (tile.equals(TILE_LOCKSCREEN)) {
-<<<<<<< HEAD
-                qs = new ToggleLockscreenTile(mContext, inflater, mContainerView, this);
-            } else if (tile.equals(TILE_NETWORKMODE) && telephonySupported) {
-                qs = new MobileNetworkTypeTile(mContext, inflater, mContainerView, this);
-=======
                 qs = new ToggleLockscreenTile(mContext, this);
-<<<<<<< HEAD
->>>>>>> 550a285... QuickSettings: cleanup
-=======
             } else if (tile.equals(TILE_NETWORKMODE) && mobileDataSupported) {
                 qs = new MobileNetworkTypeTile(mContext, this);
->>>>>>> cee38c3... QS/PW: Check for mobile data instead of telephony permissions (1/2)
             } else if (tile.equals(TILE_AUTOROTATE)) {
                 qs = new AutoRotateTile(mContext, this, mHandler);
             } else if (tile.equals(TILE_AIRPLANE)) {
