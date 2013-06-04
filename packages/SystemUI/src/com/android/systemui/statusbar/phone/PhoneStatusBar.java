@@ -1614,7 +1614,6 @@ public class PhoneStatusBar extends BaseStatusBar {
             mNotificationButton.setAlpha(progress);
         }
         mClearButton.setVisibility(View.GONE);
-        mHaloButton.setVisibility(View.GONE);
     }
 
     public void flipToSettings() {
