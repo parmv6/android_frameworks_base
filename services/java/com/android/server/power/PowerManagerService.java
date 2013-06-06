@@ -501,6 +501,7 @@ public final class PowerManagerService extends IPowerManager.Stub
                     false, mSettingsObserver, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.BUTTON_BACKLIGHT_DISABLE),
+	 	    false, mSettingsObserver, UserHandle.USER_ALL);
 	    resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.AUTO_BRIGHTNESS_RESPONSIVENESS),
                     false, mSettingsObserver, UserHandle.USER_ALL);
