@@ -1626,6 +1626,7 @@ public class PhoneStatusBar extends BaseStatusBar {
             updateCarrierLabelVisibility(false);
         }
         mClearButton.setVisibility(View.GONE);
+        mHaloButton.setVisibility(View.GONE);
     }
 
     public void flipToSettings() {
