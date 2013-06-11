@@ -527,7 +527,6 @@ public class AudioService extends IAudioService.Stub implements OnFinished {
         intentFilter.addAction(Intent.ACTION_USER_SWITCHED);
         intentFilter.addAction(Intent.ACTION_WIFI_DISPLAY_AUDIO);
 	intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
-        intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
         intentFilter.addAction(Intent.ACTION_CONFIGURATION_CHANGED);
 
         // Register a configuration change listener only if requested by system properties
