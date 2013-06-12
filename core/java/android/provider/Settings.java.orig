@@ -1659,12 +1659,6 @@ public final class Settings {
         public static final String MMS_AUTO_RETRIEVAL_ON_ROAMING = "mms_auto_on_roaming";
 
         /**
-         * Whether national data roaming should be used.
-         * @hide
-         */
-        public static final String MVNO_ROAMING = "mvno_roaming";
-
-        /**
          * Determines whether remote devices may discover and/or connect to
          * this device.
          * <P>Type: INT</P>
@@ -1856,6 +1850,13 @@ public final class Settings {
          * changing this value will not change the vibrate. See AudioManager.
          */
         public static final String VIBRATE_ON = "vibrate_on";
+
+       /**
+        * NFC polling mode configuration key
+        *
+        * @hide
+        */
+       public static final String NFC_POLLING_MODE = "nfc_polling_mode";
 
         /**
          * If 1, redirects the system vibrator to all currently attached input devices
@@ -2792,6 +2793,12 @@ public final class Settings {
          */
         public static final String STATUS_BAR_AM_PM_STYLE = "status_bar_am_pm_style";
 
+        /**	
+         * Circle battery, default = 0, standard android battery
+         * @hide
+         */
+        public static final String STATUS_BAR_CIRCLE_BATTERY = "status_bar_circle_battery";
+
         /**
          * Quick Settings Panel Tiles to Use
          * @hide
@@ -2936,50 +2943,6 @@ public final class Settings {
         public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
 
         /**
-         * Display style of the status bar battery information
-         * 0: Display the stock battery information
-         * 3: Display cm circle battery implementation
-         * 4: Display cm circle battery implementation with percentage
-         * default: 0
-         * @hide
-         */
-        public static final String STATUS_BAR_BATTERY = "status_bar_battery";
-
-        /**
-         * Enable/disable screenshot sound
-         * @hide
-         */
-        public static final String SCREENSHOT_SOUND = "screenshot_sound";
-
-        /**
-         * Screenshot delay
-         * @hide
-         */
-        public static final String SCREENSHOT_DELAY = "screenshot_delay";
-
-        /**
-         * Low battery warning dialog and sound
-         * 0 = off
-         * 1 = dialog only
-         * 2 = sound only
-         * 3 = dialog and sound
-         * @hide
-         */
-        public static final String POWER_UI_LOW_BATTERY_WARNING_POLICY = "power_ui_low_battery_warning_policy";
-
-        /**
-         * Disable button backlight
-         * @hide
-         */
-        public static final String BUTTON_BACKLIGHT_DISABLE = "button_backlight_disable";
-
-        /**
-         * Enables/disables HW acceleration for lockscreen
-         * @hide
-         */
-        public static final String LOCKSCREEN_HW_ACCELERATED = "lockscreen_hw_accelerated";
-
-	/**
          * Whether to enable custom rebindings of the actions performed on
          * certain key press events.
          * @hide
@@ -4861,13 +4824,7 @@ public final class Settings {
         public static final String WIMAX_ON = "wimax_on";
 
         /**
-         * Whether to allow killing of the foreground app by long-pressing the Back button
-         * @hide
-         */
-        public static final String KILL_APP_LONGPRESS_BACK = "kill_app_longpress_back";
-
-	/**         
-	* Whether newly installed apps should run with privacy guard by default
+         * Whether newly installed apps should run with privacy guard by default
          * @hide
          */
         public static final String PRIVACY_GUARD_DEFAULT = "privacy_guard_default";
@@ -4914,8 +4871,13 @@ public final class Settings {
             MOUNT_UMS_NOTIFY_ENABLED,
             UI_NIGHT_MODE,
             LOCK_SCREEN_OWNER_INFO,
+<<<<<<< HEAD
+            LOCK_SCREEN_OWNER_INFO_ENABLED
+=======
             LOCK_SCREEN_OWNER_INFO_ENABLED,
+            ADVANCED_REBOOT,
             PRIVACY_GUARD_DEFAULT
+>>>>>>> e48fce6... framework: Privacy Guard
         };
 
         /**
